@@ -57,7 +57,7 @@ const CoursesScreen = () => {
   const [data, setData] = useState([])
   const getCourses = async () => {
     try {
-      const response = await axios.get('http://172.19.3.82:3000/api/courses'); ////172.19.3.82
+      const response = await axios.get('http://172.19.3.82:3000/api/courses'); ////172.19.3.82////172.19.3.82
       setData(response.data.courses); 
     } catch (error) {
       console.error(error);
