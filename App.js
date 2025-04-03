@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Home from './Navigations/Bottom_Tab';
 import Drawer from './Navigations/Drawer';
+import Registration from './Navigations/Registration';
+import CoverPage from './Screens/CoverPage';
 
 
 const {Navigator, Screen} = createStackNavigator();
@@ -13,7 +15,9 @@ export default function App() {
   return (
 
     <>
-    <NavigationContainer><Drawer/></NavigationContainer></> 
+    <NavigationContainer><Drawer/></NavigationContainer>
+    
+    </> 
 
 
 
