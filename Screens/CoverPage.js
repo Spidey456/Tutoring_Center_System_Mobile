@@ -3,6 +3,8 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../Screens/Login';
 import Register from '../Screens/Register';
+import Registration from '../Navigations/Registration';
+import RegisterCourses from './RegisterCourses';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -32,6 +34,8 @@ const CoverPage = () => {
             <Screen name="Cover" component={CoverScreen} />
             <Screen name="Login" component={Login} />
             <Screen name="Register" component={Register} />
+            <Screen name="RegisterCourses" component={RegisterCourses} />
+
         </Navigator>
     );
 };

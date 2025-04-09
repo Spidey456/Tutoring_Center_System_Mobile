@@ -54,7 +54,10 @@ const CoursesScreen = () => {
 
 
   const [isLoading, setLoading] = useState(true);
+
+  
   const [data, setData] = useState([])
+
   const getCourses = async () => {
     try {
       const response = await axios.get('http://172.19.3.82:3000/api/courses'); ////172.19.3.82////172.19.3.82
@@ -92,7 +95,7 @@ const CoursesScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F6F4FC', padding: 5 },
+  container: { flex: 1, backgroundColor: 'white', padding: 5 },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',

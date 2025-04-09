@@ -1,23 +1,32 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
+import { AuthContext } from '../contexts/AuthContext'; // Adjust the import path as necessary  
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
+  const { login } = useContext(AuthContext); // Access the login function from AuthContext
   const { control, handleSubmit, formState: { errors } } = useForm();
 
   const loginUser = async (data) => {
     try {
       console.log("Datos enviados:", data);
-      await axios.post('http://172.19.3.82:3000/login', data);
-      console.log("Login Successful");
+      const response = await axios.post('http://172.19.3.82:3000/login', data);
+      const { token } = response.data; // Assuming the token is in the response data
+      if (token) {
+        login(token); // Call the login function from AuthContext
+        console.log("Login Successful");
+      } else {
+        throw new Error("No token received");
+      }
       navigation.reset({
         index: 0,
         routes: [{ name: 'Home' }]
       });
     } catch (e) {
       console.error(e.message);
-      console.log("Error in login request");
+      console.log("Login failed:", e.response ? e.response.data : e.message);
     }
   };
 
@@ -53,7 +62,7 @@ export default function Login({ navigation }) {
         <Text style={styles.label}>Password</Text>
         <Controller
           control={control}
-          name="password"
+          name="password_hash"
           rules={{ required: "Password is required" }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput

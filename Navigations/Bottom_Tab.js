@@ -7,10 +7,16 @@ import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Foundation from '@expo/vector-icons/Foundation';
+import Entypo from '@expo/vector-icons/Entypo';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 ///Importing Screens
 import Sessions from '../Screens/Sessions';
 import Tutors from '../Screens/Tutors';
 import Courses from '../Screens/Courses';
+import Main_Page from '../Screens/Main_Page';
+import Profile from '../Screens/Profile';
+import Book_Session from '../Screens/Book_Session';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -43,46 +49,51 @@ const  Settings = () =>{
 const Home = () => {
     return (
 
-<Navigator  initialRouteName="Sessions"
+<Navigator  initialRouteName="Home"
             screenOptions={{
-              tabBarActiveTintColor: '#0056b3',  // Active tab icon color
-              tabBarInactiveTintColor: '#808080',  // Inactive tab icon color
+              tabBarShowLabel: false, // This hides the text labels
+              headerShown: false,
+              tabBarActiveTintColor: 'lightgray',  // Active tab icon color
+              tabBarInactiveTintColor: 'white',  // Inactive tab icon color
               tabBarStyle: {
-                //backgroundColor: '#3143a3',  // Background color of the tab bar
+                backgroundColor: '#1e2a5e',  // Background color of the tab bar
                 borderTopColor: '#3143a3',  // Color of the top border
+                height: 80, // Adjust height (default is ~50-60)
+                paddingBottom: 5, // Add padding at the bottom (useful for iPhone notches)
+                paddingTop: 7, // Add padding at the top (to center icons vertically)
 
               },
             }}
 >
 
+<Screen name="Home" component={Main_Page}  options={{
+                  tabBarIcon: ({ color, size }) => (
+                    <Entypo name="home" size={25} color={color} />
+                  ),
+      }}/>
+
 <Screen name="Sessions" component={Sessions}  options={{
                   tabBarIcon: ({ color, size }) => (
-                    <FontAwesome5 name="graduation-cap" size={24} color={color} />
-                  ),
-      }}/>
-
-<Screen name="Courses" component={Courses}  options={{
-                  tabBarIcon: ({ color, size }) => (
-                    <FontAwesome name="list-alt" size={25} color={color} />
+                    <MaterialCommunityIcons name="book-plus-multiple" size={24} color={color} />
 
                   ),
       }}/>
 
-<Screen name="Tutors" component={Tutors}  options={{
+<Screen name="Book_Session" component={Book_Session}  options={{
                   tabBarIcon: ({ color, size }) => (
-                    <Feather name="users" size={25} color={color} />
+                    <AntDesign name="pluscircle" size={30} color="orange" />
                   ),
       }}/>
       
-<Screen name="Report" component={Report}  options={{
+<Screen name="Tutors" component={Tutors}  options={{
                   tabBarIcon: ({ color, size }) => (
-                    <Foundation name="graph-bar" size={25} color={color} />
+                    <Entypo name="users" size={24} color={color} />
                   ),
       }}/>
 
-<Screen name="Settings" component={Settings}  options={{
+<Screen name="Profile" component={Profile}  options={{
                   tabBarIcon: ({ color, size }) => (
-                    <Feather name="settings" size={25} color={color} />
+                    <Entypo name="user" size={24} color={color} />
                   ),
       }}/>
       
@@ -94,10 +105,9 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor:'#0056b3'
+      backgroundColor:'red'
     },
     text: {
       fontWeight: 'bold',

@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { SelectList } from 'react-native-dropdown-select-list'
+import axios from 'axios';
+
 import { 
   StyleSheet, Text, View, TextInput, Image, TouchableOpacity, CheckBox
 } from 'react-native';
@@ -10,6 +13,27 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [major, setMajor] = useState('');
+  const [data, setData] = useState([]);
+
+
+
+useEffect(() => {
+  const fetchMajors = async () => {
+    try {
+      const response = await axios.get('http://172.19.3.82:3000/api/majors');
+      const formatted = response.data.majors.map((item) => ({
+        key: item.major_id,
+        value: item.major_name.trim(), // removes extra spaces
+      }));
+      setData(formatted);
+    } catch (error) {
+      console.error('Error fetching majors:', error);
+    }
+  };
+
+  fetchMajors();
+}, []);
 
   return (
     <View style={styles.container}>
@@ -18,49 +42,65 @@ export default function Register({ navigation }) {
       <Text style={styles.title}>Get Started!</Text>
 
       <View style={styles.inputContainer}>
-        <View style={styles.nameContainer}>
-          <TextInput
-            style={[styles.input, styles.halfInput]}
-            placeholder="First Name"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <TextInput
-            style={[styles.input, styles.halfInput]}
-            placeholder="Last Name"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-        </View>
+  <View style={styles.nameContainer}>
+    <TextInput
+      style={[styles.input, styles.halfInput]}
+      placeholder="First Name"
+      value={firstName}
+      onChangeText={setFirstName}
+    />
+    <TextInput
+      style={[styles.input, styles.halfInput]}
+      placeholder="Last Name"
+      value={lastName}
+      onChangeText={setLastName}
+    />
+  </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="KU Email"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
+  <TextInput
+    style={styles.input}
+    placeholder="KU Email"
+    keyboardType="email-address"
+    value={email}
+    onChangeText={setEmail}
+  />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
+  <TextInput
+    style={styles.input}
+    placeholder="Password"
+    secureTextEntry
+    value={password}
+    onChangeText={setPassword}
+  />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        />
-      </View>
-
+  <TextInput
+    style={styles.input}
+    placeholder="Confirm Password"
+    secureTextEntry
+    value={confirmPassword}
+    onChangeText={setConfirmPassword}
+  />
 
 
-      <TouchableOpacity style={styles.createButton}>
+      <SelectList
+        setSelected={(val) => setMajor(val)}
+        data={data}
+        save="value"
+        placeholder="Select your major"
+        search={true}
+        boxStyles={styles.box}
+        dropdownStyles={styles.dropdown}
+      />
+
+
+
+
+</View>
+
+
+
+
+      <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate('RegisterCourses')}>
         <Text style={styles.createButtonText}>Create Account</Text>
       </TouchableOpacity>
 
@@ -124,7 +164,7 @@ const styles = StyleSheet.create({
   },
   createButton: {
     width: '85%',
-    backgroundColor: 'orange', // Gold color for button
+    backgroundColor: 'orange', 
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderRadius: 8,
